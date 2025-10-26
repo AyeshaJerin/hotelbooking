@@ -1,6 +1,6 @@
 <template>
 
-  <header>
+    <header v-if="!uid">
         <div class="header-area ">
             <div id="sticky-header" class="main-header-area">
                 <div class="container-fluid p-0">
@@ -73,72 +73,34 @@
             </div>
         </div>
     </header>
-    <!-- header-end -->
-
-    <!-- slider_area_start -->
-    <!-- <div class="slider_area">
-        <div class="slider_active owl-carousel">
-            <div class="single_slider d-flex align-items-center justify-content-center slider_bg_1">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <h3>Montana Resort</h3>
-                                <p>Unlock to enjoy the view of Martine</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_slider  d-flex align-items-center justify-content-center slider_bg_2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <h3>Life is Beautiful</h3>
-                                <p>Unlock to enjoy the view of Martine</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_slider d-flex align-items-center justify-content-center slider_bg_1">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <h3>Montana Resort</h3>
-                                <p>Unlock to enjoy the view of Martine</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_slider  d-flex align-items-center justify-content-center slider_bg_2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <h3>Life is Beautiful</h3>
-                                <p>Unlock to enjoy the view of Martine</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <nav v-if="uid" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Hotel Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/hotel_list" class="nav-link">Hotel</router-link>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a @click="logout" class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
         </div>
-    </div> -->
-    <!-- slider_area_end -->
-
-    
-   
-
-    
+    </nav>
+    <!-- header-end -->
 
     <router-view></router-view>
 
     <!-- footer -->
-    <footer class="footer">
+    <footer class="footer" v-if="!uid" >
         <div class="footer_top">
             <div class="container">
                 <div class="row">
@@ -228,61 +190,69 @@
     <!-- link that opens popup -->
 
     <!-- form itself end-->
-        <form id="test-form" class="white-popup-block mfp-hide">
-                <div class="popup_box ">
-                        <div class="popup_inner">
-                            <h3>Check Availability</h3>
-                            <form action="#">
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <input id="datepicker" placeholder="Check in date">
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <input id="datepicker2" placeholder="Check out date">
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <select class="form-select wide" id="default-select">
-                                            <option data-display="Adult">1</option>
-                                            <option value="1">2</option>
-                                            <option value="2">3</option>
-                                            <option value="3">4</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <select class="form-select wide" id="default-select">
-                                            <option data-display="Children">1</option>
-                                            <option value="1">2</option>
-                                            <option value="2">3</option>
-                                            <option value="3">4</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <select class="form-select wide" id="default-select">
-                                            <option data-display="Room type">Room type</option>
-                                            <option value="1">Laxaries Rooms</option>
-                                            <option value="2">Deluxe Room</option>
-                                            <option value="3">Signature Room</option>
-                                            <option value="4">Couple Room</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <button type="submit" class="boxed-btn3">Check Availability</button>
-                                    </div>
+    <form id="test-form" class="white-popup-block mfp-hide">
+            <div class="popup_box ">
+                    <div class="popup_inner">
+                        <h3>Check Availability</h3>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <input id="datepicker" placeholder="Check in date">
                                 </div>
-                            </form>
-                        </div>
+                                <div class="col-xl-6">
+                                    <input id="datepicker2" placeholder="Check out date">
+                                </div>
+                                <div class="col-xl-6">
+                                    <select class="form-select wide" id="default-select">
+                                        <option data-display="Adult">1</option>
+                                        <option value="1">2</option>
+                                        <option value="2">3</option>
+                                        <option value="3">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-6">
+                                    <select class="form-select wide" id="default-select">
+                                        <option data-display="Children">1</option>
+                                        <option value="1">2</option>
+                                        <option value="2">3</option>
+                                        <option value="3">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-12">
+                                    <select class="form-select wide" id="default-select">
+                                        <option data-display="Room type">Room type</option>
+                                        <option value="1">Laxaries Rooms</option>
+                                        <option value="2">Deluxe Room</option>
+                                        <option value="3">Signature Room</option>
+                                        <option value="4">Couple Room</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-12">
+                                    <button type="submit" class="boxed-btn3">Check Availability</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-            </form>
+                </div>
+    </form>
     <!-- form itself end -->
-
-   
 </template>
 
 <script>
 
-
-export default {
-  name: 'App',
-  
-}
+    export default {
+        name: 'App',
+        data() {
+            return {
+                uid:sessionStorage.getItem('uid')
+            };
+        },
+        methods: {
+            logout() {
+                this.uid="";
+                sessionStorage.setItem('uid', '');
+                window.location.href='/';
+            }
+        }
+    }
 </script>

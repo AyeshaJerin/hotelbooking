@@ -8,6 +8,18 @@ const routes =  [
     component: () => import("./components/Home")
   },
   {
+    path: "/login",
+    alias: "/login",
+    name: "login",
+    component: () => import("./components/Login")
+  },
+  {
+    path: "/dashboard",
+    alias: "/dashboard",
+    name: "dashboard",
+    component: () => import("./components/Dashboard")
+  },
+  {
     path: "/room",
     alias: "/room",
     name: "room",
@@ -18,7 +30,25 @@ const routes =  [
     alias: "/book_room",
     name: "book_room",
     component: () => import("./components/Book_room")
-  }
+  },
+  {
+    path: "/hotel_list",
+    alias: "/hotel_list",
+    name: "hotel_list",
+    component: () => import("./components/Hotel/List")
+  },
+  {
+    path: "/add_hotel",
+    alias: "/add_hotel",
+    name: "add_hotel",
+    component: () => import("./components/Hotel/Create")
+  },
+  {
+    path: "/edit_hotel/:id",
+    alias: "/edit_hotel",
+    name: "edit_hotel",
+    component: () => import("./components/Hotel/Edit")
+  },
 ];
 
 const router = createRouter({
