@@ -49,6 +49,27 @@ const routes =  [
     name: "edit_hotel",
     component: () => import("./components/Hotel/Edit")
   },
+
+
+
+  {
+    path: "/room_list/:id",
+    alias: "/room_list",
+    name: "room_list",
+    component: () => import("./components/Room/List")
+  },
+  {
+    path: "/add_room/:id",
+    alias: "/add_room",
+    name: "add_room",
+    component: () => import("./components/Room/Create")
+  },
+  {
+    path: "/edit_room/:id",
+    alias: "/edit_room",
+    name: "edit_room",
+    component: () => import("./components/Room/Edit")
+  }
 ];
 
 const router = createRouter({

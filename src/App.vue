@@ -86,6 +86,14 @@
                 <li class="nav-item">
                     <router-link to="/hotel_list" class="nav-link">Hotel</router-link>
                 </li>
+
+
+                <li class="nav-item">
+                    <router-link to="/room_list" class="nav-link">Room</router-link>
+                </li>
+
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">Booking</a>
                 </li>
