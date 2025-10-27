@@ -22,6 +22,25 @@ class DataService {
   // PropartyList() {
   //   return http.get(`/properties`);
   // }
+RoomList() {
+    return http.get("/room");
+  }
+
+getRoom(id) {
+    return http.get(`/room/${id}`);
+  }
+
+UpdateRoom(id, data) {
+    return http.put(`/room/${id}`, data);
+  }
+DeleteRoom(id) {
+    return http.delete(`/room/${id}`);
+  }
+
+AddRoom(data) {
+    return http.post("/room", data);
+  }
+  
 }
 
 
