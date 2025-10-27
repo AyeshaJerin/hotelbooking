@@ -22,7 +22,7 @@
             <td>{{ d.decription }}</td>
             <td>{{ d.rating }}</td>
             <td>{{ d.phone }}</td>
-            <td><img :src="d.image" alt="">{{d.image}}</td>
+            <td><img :src="d.image" alt=""></td>
             <td>
               <router-link :to="'/edit_hotel/'+d.id" class="btn btn-sm btn-primary me-2">Edit</router-link>
               <button @click="deleteHotel(d.id)" class="btn btn-sm btn-danger">Delete</button>

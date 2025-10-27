@@ -69,6 +69,27 @@ const routes =  [
     alias: "/edit_room",
     name: "edit_room",
     component: () => import("./components/Room/Edit")
+  },
+
+
+
+  {
+    path: "/booking_list/:id",
+    alias: "/booking_list",
+    name: "booking_list",
+    component: () => import("./components/Booking/List")
+  },
+  {
+    path: "/add_booking/:id",
+    alias: "/add_booking",
+    name: "add_booking",
+    component: () => import("./components/Booking/Create")
+  },
+  {
+    path: "/edit_booking/:id",
+    alias: "/edit_booking",
+    name: "edit_booking",
+    component: () => import("./components/Booking/Edit")
   }
 ];
 

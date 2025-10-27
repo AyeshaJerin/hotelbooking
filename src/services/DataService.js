@@ -40,6 +40,27 @@ DeleteRoom(id) {
 AddRoom(data) {
     return http.post("/room", data);
   }
+
+
+
+BookingList() {
+    return http.get("/booking");
+  }
+
+getBooking(id) {
+    return http.get(`/booking/${id}`);
+  }
+
+UpdateBooking(id, data) {
+    return http.post(`/booking/${id}`, data);
+  }
+DeleteBooking(id) {
+    return http.delete(`/booking/${id}`);
+  }
+
+AddBooking(data) {
+    return http.post("/booking", data);
+  }
   
 }
 
