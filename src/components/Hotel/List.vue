@@ -12,6 +12,7 @@
             <th>Description</th>
             <th>Rating</th>
             <th>Phone</th>
+            <th>Image</th>
             <th>Actions</th>
           </tr>
           <tr v-for="d in hotelData" :key="d.id">
@@ -21,6 +22,7 @@
             <td>{{ d.decription }}</td>
             <td>{{ d.rating }}</td>
             <td>{{ d.phone }}</td>
+            <td><img :src="d.image" alt="">{{d.image}}</td>
             <td>
               <router-link :to="'/edit_hotel/'+d.id" class="btn btn-sm btn-primary me-2">Edit</router-link>
               <button @click="deleteHotel(d.id)" class="btn btn-sm btn-danger">Delete</button>
@@ -39,6 +41,7 @@
     data() {
       return {
         hotelData:[],
+        img:'https://img.freepik.com/premium-photo/close-up-parrot-perching-branch_1048944-30228840.jpg',
       };
     },
     props: {

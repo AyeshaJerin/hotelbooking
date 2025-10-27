@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: "http://localhost:8000/api",
   withCredentials: true,
   headers: {
-    "Content-type": "application/json",
+    "Content-type": "multipart/form-data",
     "Accept": "application/json",
     Authorization: `Bearer ${sessionStorage.getItem("uid")}`,
   }

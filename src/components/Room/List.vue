@@ -14,9 +14,9 @@
             <th>Available room</th>
             <th>Actions</th>
           </tr>
-          <tr v-for="d in hotelData" :key="d.id">
+          <tr v-for="d in roomData" :key="d.id">
             <td>{{ d.id }}</td>
-            <td>{{ d.hotel_id }}</td>
+            <td>{{ d.hotel.name }}</td>
             <td>{{ d.room_type }}</td>
             <td>{{ d.price }}</td>
             <td>{{ d.total_room }}</td>

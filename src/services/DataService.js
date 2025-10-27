@@ -11,7 +11,7 @@ class DataService {
     return http.get(`/hotel/${id}`);
   }
   UpdateHotel(id, data) {
-    return http.put(`/hotel/${id}`, data);
+    return http.post(`/hotel/${id}`, data);
   }
   DeleteHotel(id) {
     return http.delete(`/hotel/${id}`);
@@ -31,7 +31,7 @@ getRoom(id) {
   }
 
 UpdateRoom(id, data) {
-    return http.put(`/room/${id}`, data);
+    return http.post(`/room/${id}`, data);
   }
 DeleteRoom(id) {
     return http.delete(`/room/${id}`);

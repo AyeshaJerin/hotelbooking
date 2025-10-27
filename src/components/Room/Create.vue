@@ -6,7 +6,10 @@
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="hotel_id" class="form-label">Hotel Id</label>
-                    <input type="text" class="form-control" id="hotel_id" v-model="room.hotel_id" required>
+                    <select class="form-control" id="hotel_id" v-model="room.hotel_id" required>
+                        <option selected value="">Select Hotel</option>
+                      <option v-for="h in hotel" :key="h.id" :value="h.id">{{ h.name }}</option>
+                    </select>
                 </div>
             </div>
             <div class="col-md-4">
@@ -49,6 +52,7 @@
         name: 'Create',
         data() {
             return {
+                hotel:[],
                 room: {
                     hotel_id: '',
                     room_type: '',
@@ -61,6 +65,18 @@
         props: {
         msg: String
         },methods: {
+            getHotel() {
+                DataService.HotelList()
+                .then(response => {
+                    if(response.data)
+                    this.hotel= response.data;
+                    else
+                    alert(response.data.error)
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            },
             addRoom() {
                 DataService.AddRoom(this.room)
                 .then(response => {
@@ -72,6 +88,8 @@
                     console.log(e);
                 });
             }
+        }, mounted() {
+            this.getHotel();
         }
     }
 </script>

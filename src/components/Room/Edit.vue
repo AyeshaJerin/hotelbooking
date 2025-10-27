@@ -5,8 +5,11 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="hotel_id" class="form-label">Hotel Id</label>
-                    <input type="text" class="form-control" id="hotel_id" v-model="room.hotel_id" required>
+                    <label for="hotel_id" class="form-label">Hotel </label>
+                    <select class="form-control" id="hotel_id" v-model="room.hotel_id" required>
+                        <option selected value="">Select Hotel</option>
+                      <option v-for="h in hotel" :key="h.id" :value="h.id">{{ h.name }}</option>
+                    </select>
                 </div>
             </div>
             <div class="col-md-4">
@@ -58,6 +61,18 @@
             };
         },
         methods: {
+            getHotel() {
+                DataService.HotelList()
+                .then(response => {
+                    if(response.data)
+                    this.hotel= response.data;
+                    else
+                    alert(response.data.error)
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            },
             getRoom(id) {
                 DataService.getRoom(id)
                 .then(response => {
@@ -68,9 +83,10 @@
             },
             UpdateRoom() {
                 const id = this.$route.params.id;
-
+                let data = {...this.room,_method: 'PUT'};  
+               
                 // update
-                DataService.UpdateRoom(id, this.room)
+                DataService.UpdateRoom(id, data)
                 .then(response => {
                     console.log(response.data);
                     alert('Room updated successfully!');
@@ -80,6 +96,7 @@
             }
         },
         mounted() {
+            this.getHotel();
             const id = this.$route.params.id;
             if (id) this.getRoom(id);
         }
