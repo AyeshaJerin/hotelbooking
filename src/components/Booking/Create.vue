@@ -81,7 +81,7 @@
         name: 'Create',
         data() {
             return {
-                // booking:[],
+                hotel:[],
                 booking: {
                     hotel_id: '',
                     room_id: '',
@@ -98,11 +98,12 @@
         props: {
         msg: String
         },methods: {
-            getBooking() {
-                DataService.BookingList()
+
+            getHotel() {
+                DataService.HotelList()
                 .then(response => {
                     if(response.data)
-                    this.booking= response.data;
+                    this.hotel= response.data;
                     else
                     alert(response.data.error)
                 })
@@ -110,6 +111,23 @@
                     console.log(e);
                 });
             },
+
+
+
+
+
+            // getBooking() {
+            //     DataService.BookingList()
+            //     .then(response => {
+            //         if(response.data)
+            //         this.booking= response.data;
+            //         else
+            //         alert(response.data.error)
+            //     })
+            //     .catch(e => {
+            //         console.log(e);
+            //     });
+            // },
             addBooking() {
                 DataService.AddBooking(this.booking)
                 .then(response => {
@@ -122,7 +140,7 @@
                 });
             }
         }, mounted() {
-            this.getBooking();
+            this.getHotel();
         }
     }
 </script>

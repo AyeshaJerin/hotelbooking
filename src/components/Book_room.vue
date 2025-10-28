@@ -10,10 +10,6 @@
       </div>
     </div>
 
-    
-
-    
-
     <!-- Booking Form -->
     <div class="booking_form my-5">
       <div class="container">
@@ -31,26 +27,32 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Full Name</label>
-                    <input type="text" class="form-control" v-model="form.name" placeholder="Enter your full name" required>
+                    <input type="text" class="form-control" v-model="form.customer_name" placeholder="Enter your full name" required>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Email Address</label>
-                    <input type="email" class="form-control" v-model="form.email" placeholder="Enter your email" required>
+                    <input type="email" class="form-control" v-model="form.customer_email" placeholder="Enter your email" required>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Phone Number</label>
-                    <input type="tel" class="form-control" v-model="form.phone" placeholder="Enter phone number" required>
+                    <input type="tel" class="form-control" v-model="form.customer_phone" placeholder="Enter phone number" required>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Select Hotel</label>
-                    <select class="form-select" v-model="form.hotel" required>
+                    <!-- <select class="form-select" v-model="form.hotel_id" required>
                       <option disabled value="">Choose Hotel</option>
                       <option>Sea View Hotel</option>
                       <option>Royal Grand</option>
                       <option>Mountain Resort</option>
+                    </select> -->
+                    <select class="form-select" v-model="form.hotel_id" required>
+                      <option disabled value="">Choose Hotel</option>
+                      <option v-for="hotel in hotels" :key="hotel.id" :value="hotel.id">
+                        {{ hotel.name }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -59,11 +61,11 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Check-In Date</label>
-                    <input type="date" class="form-control" v-model="form.checkin" required>
+                    <input type="date" class="form-control" v-model="form.check_in" required>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Check-Out Date</label>
-                    <input type="date" class="form-control" v-model="form.checkout" required>
+                    <input type="date" class="form-control" v-model="form.check_out" required>
                   </div>
                 </div>
 
@@ -74,21 +76,58 @@
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Room Type</label>
-                    <select class="form-select" v-model="form.roomType" required>
+                    <!-- <select class="form-select" v-model="form.room_id" required>
                       <option disabled value="">Select Room Type</option>
                       <option>Superior Room</option>
                       <option>Deluxe Room</option>
                       <option>Signature Room</option>
                       <option>Couple Room</option>
+                    </select> -->
+
+
+
+                    <select class="form-select" v-model="form.room_id" required>
+                      <option disabled value="">Select Room Type</option>
+                      <option v-for="room in rooms" :key="room.id" :value="room.id">
+                        {{ room.name }}
+                      </option>
                     </select>
                   </div>
                 </div>
 
+
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label>Total Price</label>
+                    <input type="text" class="form-control" v-model="form.total_price" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label>Status</label>
+                    <!-- <select class="form-select" v-model="form.status" required>
+                        <option disabled value="">Select Status</option>
+                        <option v-for="status in statuses" :key="status.value" :value="status.value">
+                          {{ status.label }}
+                        </option>
+                    </select> -->
+
+                    <select class="form-select" v-model="form.status" required>
+                    <option disabled value="">Select Status</option>
+                    <option>Pending</option>
+                    <option>Accepted</option>
+                    <option>Cancelled</option>
+                    </select>
+                  </div>
+                </div>
+
+
+
+
                 <!-- Extra -->
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                   <label>Special Request (Optional)</label>
                   <textarea class="form-control" v-model="form.request" rows="3" placeholder="Any special note?"></textarea>
-                </div>
+                </div> -->
 
                 <button type="submit" class="btn btn-primary w-100 py-2">Book Now</button>
               </form>
@@ -132,15 +171,17 @@ export default {
   data() {
     return {
       form: {
-        name: '',
-        email: '',
-        phone: '',
-        hotel: '',
-        checkin: '',
-        checkout: '',
+        customer_name: '',
+        customer_email: '',
+        customer_phone: '',
+        hotel_id: '',
+        check_in: '',
+        check_out: '',
         guests: 1,
-        roomType: '',
-        request: ''
+        room_id: '',
+       
+        total_price:'',
+        status:''
       },
       featuredRooms: [
         { name: "Superior Room", price: "From $250/night", img: "img/rooms/1.png" },

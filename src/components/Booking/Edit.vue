@@ -94,11 +94,23 @@
             };
         },
         methods: {
-            getBooking() {
-                DataService.BookingList()
+            // getAllBooking() {
+            //     DataService.BookingList()
+            //     .then(response => {
+            //         if(response.data)
+            //         this.booking= response.data;
+            //         else
+            //         alert(response.data.error)
+            //     })
+            //     .catch(e => {
+            //         console.log(e);
+            //     });
+            // },
+            getHotel() {
+                DataService.HotelList()
                 .then(response => {
                     if(response.data)
-                    this.booking= response.data;
+                    this.hotel= response.data;
                     else
                     alert(response.data.error)
                 })
@@ -129,7 +141,7 @@
             }
         },
         mounted() {
-            this.getBooking();
+            this.getHotel();
             const id = this.$route.params.id;
             if (id) this.getBooking(id);
         }

@@ -20,7 +20,8 @@
             <th>Actions</th>
           </tr>
           <tr v-for="d in bookingData" :key="d.id">
-            <td>{{ d.hotel_id }}</td>
+            <td>{{ d.id }}</td>
+            <td>{{ d.hotel?.name }}</td>
             <td>{{ d.room_id }}</td>
             <td>{{ d.customer_name }}</td>
             <td>{{ d.customer_email }}</td>

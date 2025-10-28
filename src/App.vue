@@ -95,8 +95,9 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Booking</a>
+                    <router-link to="/booking_list" class="nav-link">Booking</router-link>
                 </li>
+                
                 <li class="nav-item">
                     <a @click="logout" class="nav-link" href="#">Logout</a>
                 </li>
@@ -104,6 +105,8 @@
         </div>
     </nav>
     <!-- header-end -->
+
+
 
     <router-view></router-view>
 
@@ -245,6 +248,9 @@
     </form>
     <!-- form itself end -->
 </template>
+
+
+
 
 <script>
 

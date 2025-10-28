@@ -16,6 +16,7 @@
                 <div class="mb-3">
                     <label for="room_type" class="form-label">Room type</label>
                     <input type="text" class="form-control" id="room_type" v-model="room.room_type" required>
+                    
                 </div>
             </div>
             <div class="col-md-4">
