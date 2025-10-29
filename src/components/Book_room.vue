@@ -86,10 +86,10 @@
 
 
 
-                    <select class="form-select" v-model="form.room_id" required>
+                    <select class="form-select" v-model="form.room_type" required>
                       <option disabled value="">Select Room Type</option>
-                      <option v-for="room in rooms" :key="room.id" :value="room.id">
-                        {{ room.name }}
+                      <option v-for="room in rooms" :key="room.id" :value="room.type">
+                        {{ room.type }}
                       </option>
                     </select>
                   </div>
@@ -166,10 +166,12 @@
 </template>
 
 <script>
+import DataService from "../services/DataService";
 export default {
   name: 'Room',
   data() {
     return {
+      hotels:[],
       form: {
         customer_name: '',
         customer_email: '',
@@ -178,7 +180,7 @@ export default {
         check_in: '',
         check_out: '',
         guests: 1,
-        room_id: '',
+        room_type: '',
        
         total_price:'',
         status:''
@@ -192,11 +194,27 @@ export default {
     }
   },
   methods: {
+
     submitBooking() {
       console.log("Booking Details:", this.form);
       alert("✅ Booking Successful!");
       // এখানে পরে Axios ব্যবহার করে Laravel backend এ পাঠাতে পারো
-    }
+    },
+    getHotel() {
+                DataService.HotelList()
+                .then(response => {
+                    if(response.data)
+                    this.hotels= response.data;
+                    else
+                    alert(response.data.error)
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            },
+  },
+  mounted() {
+    this.getHotel();
   }
 }
 </script>
