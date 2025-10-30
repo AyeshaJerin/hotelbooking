@@ -29,37 +29,44 @@ RoomList() {
 getRoom(id) {
     return http.get(`/room/${id}`);
   }
+getRoomByHotel(id) {
+    return http.get(`/room_by_hotel/${id}`);
+  }
 
-UpdateRoom(id, data) {
+  UpdateRoom(id, data) {
     return http.post(`/room/${id}`, data);
   }
-DeleteRoom(id) {
+  DeleteRoom(id) {
     return http.delete(`/room/${id}`);
   }
 
-AddRoom(data) {
+  AddRoom(data) {
     return http.post("/room", data);
   }
 
 
 
-BookingList() {
+  BookingList() {
     return http.get("/booking");
   }
 
-getBooking(id) {
+  getBooking(id) {
     return http.get(`/booking/${id}`);
   }
 
-UpdateBooking(id, data) {
+  UpdateBooking(id, data) {
     return http.post(`/booking/${id}`, data);
   }
-DeleteBooking(id) {
+  DeleteBooking(id) {
     return http.delete(`/booking/${id}`);
   }
 
-AddBooking(data) {
+  AddBooking(data) {
     return http.post("/booking", data);
+  }
+
+  customerRoomBooking(data) {
+    return http.post("/roombooking", data);
   }
   
 }

@@ -42,13 +42,7 @@
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Select Hotel</label>
-                    <!-- <select class="form-select" v-model="form.hotel_id" required>
-                      <option disabled value="">Choose Hotel</option>
-                      <option>Sea View Hotel</option>
-                      <option>Royal Grand</option>
-                      <option>Mountain Resort</option>
-                    </select> -->
-                    <select class="form-select" v-model="form.hotel_id" required>
+                    <select @change="getRooms(this.value)" class="form-select" v-model="form.hotel_id" required>
                       <option disabled value="">Choose Hotel</option>
                       <option v-for="hotel in hotels" :key="hotel.id" :value="hotel.id">
                         {{ hotel.name }}
@@ -61,77 +55,39 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Check-In Date</label>
-                    <input type="date" class="form-control" v-model="form.check_in" required>
+                    <input type="date" class="form-control" v-model="form.check_in" @change="calPrice()" required>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Check-Out Date</label>
-                    <input type="date" class="form-control" v-model="form.check_out" required>
+                    <input type="date" class="form-control" v-model="form.check_out" @change="calPrice()" required>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Guests</label>
-                    <input type="number" class="form-control" min="1" v-model="form.guests" required>
+                    <input type="number" class="form-control" min="1" v-model="form.number_of_guest" @input="calPrice()" required>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label>Room Type</label>
-                    <!-- <select class="form-select" v-model="form.room_id" required>
+                    <select @change="calPrice()" class="form-select" v-model="form.room_id" required>
                       <option disabled value="">Select Room Type</option>
-                      <option>Superior Room</option>
-                      <option>Deluxe Room</option>
-                      <option>Signature Room</option>
-                      <option>Couple Room</option>
-                    </select> -->
-
-
-
-                    <select class="form-select" v-model="form.room_type" required>
-                      <option disabled value="">Select Room Type</option>
-                      <option v-for="room in rooms" :key="room.id" :value="room.type">
-                        {{ room.type }}
+                      <option v-for="room in rooms" :key="room.id" :value="room.id">
+                        {{ room.room_type }}. Price: {{ room.price }}
                       </option>
                     </select>
                   </div>
                 </div>
 
-
-
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label>Total Price</label>
-                    <input type="text" class="form-control" v-model="form.total_price" required>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label>Status</label>
-                    <!-- <select class="form-select" v-model="form.status" required>
-                        <option disabled value="">Select Status</option>
-                        <option v-for="status in statuses" :key="status.value" :value="status.value">
-                          {{ status.label }}
-                        </option>
-                    </select> -->
-
-                    <select class="form-select" v-model="form.status" required>
-                    <option disabled value="">Select Status</option>
-                    <option>Pending</option>
-                    <option>Accepted</option>
-                    <option>Cancelled</option>
-                    </select>
+                    <input type="text" class="form-control" v-model="form.total_price" required readonly>
                   </div>
                 </div>
 
-
-
-
-                <!-- Extra -->
-                <!-- <div class="mb-3">
-                  <label>Special Request (Optional)</label>
-                  <textarea class="form-control" v-model="form.request" rows="3" placeholder="Any special note?"></textarea>
-                </div> -->
-
                 <button type="submit" class="btn btn-primary w-100 py-2">Book Now</button>
               </form>
-
             </div>
           </div>
         </div>
@@ -179,39 +135,105 @@ export default {
         hotel_id: '',
         check_in: '',
         check_out: '',
-        guests: 1,
-        room_type: '',
+        number_of_guest: 1,
+        room_id: '',
        
         total_price:'',
-        status:''
+        status:'pending'
       },
-      featuredRooms: [
-        { name: "Superior Room", price: "From $250/night", img: "img/rooms/1.png" },
-        { name: "Deluxe Room", price: "From $250/night", img: "img/rooms/2.png" },
-        { name: "Signature Room", price: "From $250/night", img: "img/rooms/3.png" },
-        { name: "Couple Room", price: "From $250/night", img: "img/rooms/4.png" }
-      ]
+      rooms:[]
     }
   },
   methods: {
+    calPrice(){
+      const selectedId = this.form.room_id;
+      const room = this.rooms.find(r => String(r.id) === String(selectedId));
 
+      if (!room) {
+        this.form.total_price = '';
+        return;
+      }
+
+      // parse numeric unit price (handles numbers or strings like "$250" or "250.00")
+      let unitPrice = room.price;
+      if (typeof unitPrice === 'string') {
+        const match = unitPrice.replace(/,/g, '').match(/[\d.]+/);
+        unitPrice = match ? parseFloat(match[0]) : 0;
+      }
+      unitPrice = Number(unitPrice) || 0;
+
+      // helper to parse yyyy-mm-dd from <input type="date"> reliably
+      const parseDate = (s) => {
+        if (!s) return null;
+        const parts = s.split('-').map(Number);
+        if (parts.length !== 3) return null;
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+      };
+
+      const ci = parseDate(this.form.check_in);
+      const co = parseDate(this.form.check_out);
+
+      // require both dates and check-out after check-in
+      if (!ci || !co || co <= ci) {
+        this.form.total_price = '';
+        return;
+      }
+
+      const msPerDay = 24 * 60 * 60 * 1000;
+      const nights = Math.round((co - ci) / msPerDay); // integer nights
+
+      const total = unitPrice * nights;
+
+      this.form.total_price = isNaN(total) ? '' : total.toFixed(2);
+    },
+    getRooms(){
+      DataService.getRoomByHotel(this.form.hotel_id)
+      .then(response => {
+        if(response.data)
+          this.rooms= response.data;
+        else
+          alert(response.data.error)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
     submitBooking() {
-      console.log("Booking Details:", this.form);
-      alert("✅ Booking Successful!");
-      // এখানে পরে Axios ব্যবহার করে Laravel backend এ পাঠাতে পারো
+      DataService.customerRoomBooking(this.form)
+      .then(response => {
+        if(response.data){
+          alert('Booking Successful!');
+          // Reset form
+          this.form = {
+            customer_name: '',
+            customer_email: '',
+            customer_phone: '',
+            hotel_id: '',
+            check_in: '',
+            check_out: '',
+            number_of_guest: 1,
+            room_id: '',
+            total_price:'',
+            status:''
+          };
+          this.rooms = [];
+        }
+        else
+          alert(response.data.error)
+      })
     },
     getHotel() {
-                DataService.HotelList()
-                .then(response => {
-                    if(response.data)
-                    this.hotels= response.data;
-                    else
-                    alert(response.data.error)
-                })
-                .catch(e => {
-                    console.log(e);
-                });
-            },
+      DataService.HotelList()
+      .then(response => {
+        if(response.data)
+          this.hotels= response.data;
+        else
+          alert(response.data.error)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
   },
   mounted() {
     this.getHotel();

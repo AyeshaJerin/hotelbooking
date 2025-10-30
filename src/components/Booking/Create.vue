@@ -17,7 +17,7 @@
                     <label for="room_id" class="form-label">Room type</label>
                     <select class="form-control" id="room_id" v-model="booking.room_id" required>
                         <option selected value="">Select Room</option>
-                      <option v-for="r in room" :key="r.id" :value="r.id">{{ r.name }}</option>
+                      <option v-for="r in room" :key="r.id" :value="r.id">{{ r.room_type }}</option>
                     </select>
                     <!-- <input type="text" class="form-control" id="room_type" v-model="room.room_type" required> -->
                 </div>
